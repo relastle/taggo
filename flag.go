@@ -26,7 +26,7 @@ func checkColor() bool {
 
 func parse() {
 	flag.StringVar(&tag, "tag", "", "")
-	flag.StringVar(&colorStr, "color", "black", "")
+	flag.StringVar(&colorStr, "color", "", "")
 	flag.StringVar(&delimiter, "delimiter", "\t", "")
 	flag.IntVar(&index, "index", -1, "")
 	flag.Parse()

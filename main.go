@@ -15,7 +15,7 @@ func asItIs(format string, a ...interface{}) string {
 
 var colorFuncMap = map[string](func(format string, a ...interface{}) string){
 	"":        asItIs,
-	"balck":   color.BlackString,
+	"black":   color.BlackString,
 	"red":     color.RedString,
 	"green":   color.BlueString,
 	"yellow":  color.YellowString,
