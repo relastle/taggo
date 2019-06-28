@@ -50,6 +50,9 @@ func parseColorizeQuery(query string) Colorizer {
 	res := Colorizer{}
 	pairs := strings.Split(query, ",")
 	for _, pair := range pairs {
+		if pair == "" {
+			continue
+		}
 		elms := strings.Split(pair, ":")
 		if len(elms) != 2 {
 			log.Fatal("query must be like '0:red,1:blue'")
