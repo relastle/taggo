@@ -28,8 +28,8 @@ func (mss *multiStepStream) streamLine(line string) string {
 func simpleTagAddStep(line string) string {
 	return fmt.Sprintf(
 		"%v%v%v",
-		colorFuncMap[colorStr](tag),
-		delimiter,
+		ColorFuncMap[tagColor](tag),
+		tagDelimiter,
 		line,
 	)
 }
@@ -38,23 +38,27 @@ func simpleTagAddStep(line string) string {
 // with a given color
 func colorColumnStep(line string) string {
 	elms := strings.Split(line, delimiter)
-	if index >= len(elms) {
-		return line
+	for index, color := range colorizer {
+		if !(0 <= index && index < len(elms)) {
+			continue
+		}
+		elms[index] = ColorFuncMap[color](elms[index])
 	}
-	elms[index] = colorFuncMap[colorStr](elms[index])
 	return fmt.Sprintf(
 		"%v",
 		strings.Join(elms, delimiter),
 	)
 }
 
-// addNerdBadgeStep add nerd badge to `nerdIndex`th column
-func addNerdBadgeStep(line string) string {
+// addIconsStep add nerd icons to `nerdIndex`th column
+func addIconsStep(line string) string {
 	elms := strings.Split(line, delimiter)
-	if nerdIndex >= len(elms) {
-		return line
+	for _, index := range iconIndices {
+		if !(0 <= index && index < len(elms)) {
+			return line
+		}
+		elms[index] = addIcon(elms[index])
 	}
-	elms[nerdIndex] = addBadge(elms[nerdIndex])
 	return fmt.Sprintf(
 		"%v",
 		strings.Join(elms, delimiter),
@@ -64,11 +68,11 @@ func addNerdBadgeStep(line string) string {
 // MainStream is a main I/O stream of taggo
 func MainStream() {
 	mss := &multiStepStream{}
-	if index >= 0 {
+	if len(colorizer) > 0 {
 		mss.addStep(colorColumnStep)
 	}
-	if nerdIndex >= 0 {
-		mss.addStep(addNerdBadgeStep)
+	if len(iconIndices) > 0 {
+		mss.addStep(addIconsStep)
 	}
 	if tag != "" {
 		mss.addStep(simpleTagAddStep)

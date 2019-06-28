@@ -10,9 +10,9 @@ import (
 var (
 	// --Flag--
 	// Tag
-	tag          string
-	tagColor     string
-	tagDelimiter string
+	tag            string
+	tagColorString string
+	tagDelimiter   string
 	// Colors
 	colorizeQuery string
 	// Icons
@@ -22,6 +22,7 @@ var (
 	delimiter string
 
 	// --Global Vairiable--
+	tagColor    Color
 	colorizer   Colorizer
 	iconIndices []int
 )
@@ -36,13 +37,13 @@ type Colorizer map[int]Color
 func checkColor(s string) Color {
 	ks := []string{}
 	for k := range ColorFuncMap {
-		if s == k {
+		if s == string(k) {
 			return Color(s)
 		}
-		ks = append(ks, k)
+		ks = append(ks, string(k))
 	}
 	log.Fatalf("color must be any of %v\n", ks)
-	return nil
+	return ""
 }
 
 func parseColorizeQuery(query string) Colorizer {
@@ -81,7 +82,7 @@ func parseIndices(indicesString string) []int {
 // FlagParse parse command line arguments
 func FlagParse() {
 	flag.StringVar(&tag, "tag", "", "The tag value. It is inserted in head of every line")
-	flag.StringVar(&tagColor, "tagColor", "", "Color that is applied to tag.")
+	flag.StringVar(&tagColorString, "tagColor", "", "Color that is applied to tag.")
 	flag.StringVar(&tagDelimiter, "tagDelimiter", "\t", "Delimiter used to delimite tag")
 
 	flag.StringVar(&colorizeQuery, "colorizeQuery", "", "It requires the comma-seperated query to colorize columns ('0:red,1:blue,2:green')")
@@ -89,6 +90,7 @@ func FlagParse() {
 	flag.StringVar(&delimiter, "delimiter", "\t", "Delimiter that is parse a whole line")
 	flag.Parse()
 
+	tagColor = checkColor(tagColorString)
 	colorizer = parseColorizeQuery(colorizeQuery)
 	iconIndices = parseIndices(iconIndicesString)
 }

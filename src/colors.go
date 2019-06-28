@@ -9,7 +9,7 @@ func asItIs(format string, a ...interface{}) string {
 }
 
 // ColorFuncMap TODO
-var ColorFuncMap = map[string](func(format string, a ...interface{}) string){
+var ColorFuncMap = map[Color](func(format string, a ...interface{}) string){
 	"":        asItIs,
 	"black":   fatih_color.BlackString,
 	"red":     fatih_color.RedString,

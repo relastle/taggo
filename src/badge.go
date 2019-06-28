@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func addBadge(target string) string {
+func addIcon(target string) string {
 	base := path.Base(target)
 	// if base name mathes to something, return that.
 	if badge, ok := basenameNerdFontMap[base]; ok {
