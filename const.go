@@ -4,9 +4,9 @@ package main
 // https://github.com/athityakumar/colorls/blob/master/lib/yaml/files.yaml
 // Jun 27, 2019
 
-// nerdFontMap defines the `extension` -> `nerdfont`
+// extensionNerdFontMap defines the `extension` -> `nerdfont`
 // mapping.
-var nerdFontMap = map[string]string{
+var extensionNerdFontMap = map[string]string{
 	"ai":           "\ue7b4",
 	"android":      "\ue70e",
 	"apple":        "\uf179",
@@ -79,4 +79,8 @@ var nerdFontMap = map[string]string{
 	"yml":          "\uf481",
 	"zip":          "\uf410",
 	"zsh":          "\uf489",
+}
+
+var basenameNerdFontMap = map[string]string{
+	"Dockerfile": "\ue7b0",
 }
