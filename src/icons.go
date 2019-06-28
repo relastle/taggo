@@ -1,12 +1,17 @@
 package taggo
 
+import (
+	"fmt"
+	"path"
+	"strings"
+
 // The code below is highly inspired by
 // https://github.com/athityakumar/colorls/blob/master/lib/yaml/files.yaml
 // Jun 27, 2019
 
 // extensionNerdFontMap defines the `extension` -> `nerdfont`
 // mapping.
-var extensionNerdFontMap = map[string]string{
+var extensionIconMap = map[string]string{
 	"ai":           "\ue7b4",
 	"android":      "\ue70e",
 	"apple":        "\uf179",
@@ -81,6 +86,25 @@ var extensionNerdFontMap = map[string]string{
 	"zsh":          "\uf489",
 }
 
-var basenameNerdFontMap = map[string]string{
+var basenameIconMap = map[string]string{
 	"Dockerfile": "\ue7b0",
+}
+
+func addIcon(target string) string {
+	base := path.Base(target)
+	// if base name mathes to something, return that.
+	if icon, ok := basenameIconMap[base]; ok {
+		return fmt.Sprintf("%v:%v", icon, target)
+	}
+
+	// No extension is assumed as simple text file
+	dotIndex := strings.LastIndex(base, ".")
+	if dotIndex < 0 {
+		return fmt.Sprintf("%v:%v", extensionIconMap["txt"], target)
+	}
+	extension := base[dotIndex+1 : len(base)]
+	if icon, ok := extensionIconMap[extension]; ok {
+		return fmt.Sprintf("%v:%v", icon, target)
+	}
+	return fmt.Sprintf("%v:%v", extensionIconMap["txt"], target)
 }
