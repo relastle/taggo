@@ -2,26 +2,11 @@ package main
 
 import (
 	"github.com/fatih/color"
+	taggo "github.com/relastle/taggo/src"
 )
 
-func asItIs(format string, a ...interface{}) string {
-	return format
-}
-
-var colorFuncMap = map[string](func(format string, a ...interface{}) string){
-	"":        asItIs,
-	"black":   color.BlackString,
-	"red":     color.RedString,
-	"green":   color.GreenString,
-	"yellow":  color.YellowString,
-	"blue":    color.BlueString,
-	"magenda": color.MagentaString,
-	"cyan":    color.CyanString,
-	"white":   color.WhiteString,
-}
-
 func main() {
-	parse()
+	taggo.FlagParse()
 	color.NoColor = false
-	mainStream()
+	taggo.MainStream()
 }

@@ -1,4 +1,4 @@
-package main
+package taggo
 
 import (
 	"bufio"
@@ -61,7 +61,8 @@ func addNerdBadgeStep(line string) string {
 	)
 }
 
-func mainStream() {
+// MainStream is a main I/O stream of taggo
+func MainStream() {
 	mss := &multiStepStream{}
 	if index >= 0 {
 		mss.addStep(colorColumnStep)

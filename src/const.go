@@ -1,4 +1,4 @@
-package main
+package taggo
 
 // The code below is highly inspired by
 // https://github.com/athityakumar/colorls/blob/master/lib/yaml/files.yaml
