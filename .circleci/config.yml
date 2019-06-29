@@ -1,0 +1,53 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: docker:17.07.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker:
+         docker_layer_caching: true
+      - run:
+          name: Login
+          command: docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+      - run:
+          name: Prepare suitable tag name
+          command: |
+            DOCKER_TAG=$(echo "$CIRCLE_BRANCH")
+            echo "export DOCKER_TAG=$DOCKER_TAG" | tee docker_tag
+            echo "export DOCKER_TAG=$DOCKER_TAG" >> $BASH_ENV
+      - run:
+          name: Build image
+          command: |
+            source docker_tag
+            # Replace with your repository name
+            docker build -t relastle/pmy:${DOCKER_TAG} -f ./docker/Dockerfile .
+      - run:
+          name: Push
+          command: |
+            source docker_tag
+            # Replace with your repository name
+            docker push relastle/pmy:${DOCKER_TAG}
+  test:
+    docker:
+      - image: relastle/pmy:${CIRCLE_BRANCH}
+    steps:
+      - checkout
+      - setup_remote_docker:
+         docker_layer_caching: true
+      - run:
+          name: test
+          command: zsh ./test.zsh
+workflows:
+  version: 2
+  build_and_test: # workflow名
+    jobs:
+      - build:
+          filters:  # using regex filters requires the entire branch to match
+            branches:
+              only:  # only branches matching the below regex filters will run
+                - master
+                - develop
+      - integration-test:
+          requires: # buildが成功したら実行する
+            - build
