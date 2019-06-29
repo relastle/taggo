@@ -36,7 +36,7 @@ func addTagtep(line string) string {
 
 func removeTagStep(line string) string {
 	elms := strings.Split(line, tagDelimiter)
-	return strings.Join(elms[1:len(elms)], tagDelimiter)
+	return strings.Join(elms[1:], tagDelimiter)
 }
 
 // colorColumnStep colors `index`th column
