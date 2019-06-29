@@ -77,6 +77,9 @@ func parseIndices(indicesString string) []int {
 	res := []int{}
 	elms := strings.Split(indicesString, ",")
 	for _, elm := range elms {
+		if elm == "" {
+			continue
+		}
 		index, err := strconv.Atoi(elm)
 		if err != nil {
 			log.Fatal(err)
