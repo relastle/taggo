@@ -130,5 +130,5 @@ func addIcon(target string) string {
 
 func removeIcon(target string) string {
 	delimIndex := strings.Index(target, iconDelimiter)
-	return target[delimIndex+1 : len(target)]
+	return target[delimIndex+len(iconDelimiter) : len(target)]
 }
