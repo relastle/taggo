@@ -5,9 +5,9 @@ GREEN="\033[1;32m"
 NOCOLOR="\033[0m"
 
 # Candidates
-delimiters=("$'\t'" "$' '" "$':'" "$','" )
-iconDelimiters=("$' '" "$':'" "$'::'")
-tagDelimiters=("$'\t'" "$' '" "$':'" "$','")
+delimiters=("'\t'" "' '" "':'" "','" )
+iconDelimiters=("' '" "':'" "'::'")
+tagDelimiters=("'\t'" "' '" "':'" "','")
 
 
 function test_line () {

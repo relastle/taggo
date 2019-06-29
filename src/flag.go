@@ -95,6 +95,12 @@ func checkDelimiters(delimiter string, iconDelimiter string) {
 	}
 }
 
+func parseDelimiter(delimiter string) string {
+	// Special handling of \t
+	delimiter = strings.Replace(delimiter, "\\t", "\t", -1)
+	return delimiter
+}
+
 // FlagParse parse command line arguments
 func FlagParse() {
 	flag.StringVar(&tag, "tag", "", "The tag value. It is inserted in head of every line")
@@ -108,6 +114,10 @@ func FlagParse() {
 
 	flag.BoolVar(&revertFlag, "revert", false, "If specified, it revert decorated line(ANSI colors are assumbed to be removed).")
 	flag.Parse()
+
+	tagDelimiter = parseDelimiter(tagDelimiter)
+	iconDelimiter = parseDelimiter(iconDelimiter)
+	delimiter = parseDelimiter(delimiter)
 
 	checkDelimiters(delimiter, iconDelimiter)
 	tagColor = checkColor(tagColorString)
