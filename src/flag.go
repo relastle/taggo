@@ -17,9 +17,13 @@ var (
 	colorizeQuery string
 	// Icons
 	iconIndicesString string
+	iconDelimiter     string
 	// Common(Colors, Icons)
 	// this is used commonly between Colors and Icons
 	delimiter string
+	// revertFlag contains boolean whether `taggo` is launched
+	// to stream input lines, or to revert one line.
+	revertFlag bool
 
 	// --Global Vairiable--
 	tagColor    Color
@@ -90,7 +94,10 @@ func FlagParse() {
 
 	flag.StringVar(&colorizeQuery, "colorizeQuery", "", "It requires the comma-seperated query to colorize columns ('0:red,1:blue,2:green')")
 	flag.StringVar(&iconIndicesString, "iconIndices", "", "Index list which will be applied icon automatically (0,2,3)")
+	flag.StringVar(&iconDelimiter, "iconDelimiter", ":", "Delimiter that follows icon(it can not be a substring of delimiter if you want to revert correctly)")
 	flag.StringVar(&delimiter, "delimiter", "\t", "Delimiter that is parse a whole line")
+
+	flag.BoolVar(&revertFlag, "revert", false, "If specified, it revert decorated line(ANSI colors are assumbed to be removed).")
 	flag.Parse()
 
 	tagColor = checkColor(tagColorString)

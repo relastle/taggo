@@ -25,13 +25,18 @@ func (mss *multiStepStream) streamLine(line string) string {
 	return line
 }
 
-func simpleTagAddStep(line string) string {
+func addTagtep(line string) string {
 	return fmt.Sprintf(
 		"%v%v%v",
 		ColorFuncMap[tagColor](tag),
 		tagDelimiter,
 		line,
 	)
+}
+
+func removeTagStep(line string) string {
+	elms := strings.Split(line, tagDelimiter)
+	return strings.Join(elms[1:len(elms)], tagDelimiter)
 }
 
 // colorColumnStep colors `index`th column
@@ -65,17 +70,34 @@ func addIconsStep(line string) string {
 	)
 }
 
-// MainStream is a main I/O stream of taggo
-func MainStream() {
+// removeIconStep add nerd icons to `nerdIndex`th column
+func removeIconStep(line string) string {
+	elms := strings.Split(line, delimiter)
+	for _, index := range iconIndices {
+		if !(0 <= index && index < len(elms)) {
+			return line
+		}
+		elms[index] = removeIcon(elms[index])
+	}
+	return fmt.Sprintf(
+		"%v",
+		strings.Join(elms, delimiter),
+	)
+}
+
+func decorateStream() {
 	mss := &multiStepStream{}
+	// append `COLORIZE STEP`
 	if len(colorizer) > 0 {
 		mss.addStep(colorColumnStep)
 	}
+	// append `ICON STEP`
 	if len(iconIndices) > 0 {
 		mss.addStep(addIconsStep)
 	}
+	// append `ADD TAG STEP`
 	if tag != "" {
-		mss.addStep(simpleTagAddStep)
+		mss.addStep(addTagtep)
 	}
 
 	scanner := bufio.NewScanner(os.Stdin)
@@ -86,5 +108,39 @@ func MainStream() {
 	}
 
 	if scanner.Err() != nil {
+	}
+}
+
+// revertStream reverts lines into original ones.
+// It assume that all ANSI color codes were removed
+func revertStream() {
+	mss := &multiStepStream{}
+
+	// append `REMOVE TAG STEP`
+	if tag != "" {
+		mss.addStep(removeTagStep)
+	}
+
+	// append `REMOVE ICON STEP`
+	if len(iconIndices) > 0 {
+		mss.addStep(removeIconStep)
+	}
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		text := scanner.Text()
+		text = mss.streamLine(text)
+		fmt.Println(text)
+	}
+
+	if scanner.Err() != nil {
+	}
+}
+
+// MainStream is a main I/O stream of taggo
+func MainStream() {
+	if !revertFlag {
+		decorateStream()
+	} else {
+		revertStream()
 	}
 }

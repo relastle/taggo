@@ -121,8 +121,14 @@ func getIcon(target string) Icon {
 func addIcon(target string) string {
 	icon := getIcon(target)
 	return fmt.Sprintf(
-		"%s:%s",
+		"%s%s%s",
 		ColorFuncMap[icon.color](icon.code),
+		iconDelimiter,
 		target,
 	)
+}
+
+func removeIcon(target string) string {
+	delimIndex := strings.Index(target, iconDelimiter)
+	return target[delimIndex+1 : len(target)]
 }
