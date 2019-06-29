@@ -89,6 +89,12 @@ func parseIndices(indicesString string) []int {
 	return res
 }
 
+func checkDelimiters(delimiter string, iconDelimiter string) {
+	if strings.Contains(iconDelimiter, delimiter) {
+		log.Fatal("delimiter must not be substring of iconDelimiter")
+	}
+}
+
 // FlagParse parse command line arguments
 func FlagParse() {
 	flag.StringVar(&tag, "tag", "", "The tag value. It is inserted in head of every line")
@@ -103,6 +109,7 @@ func FlagParse() {
 	flag.BoolVar(&revertFlag, "revert", false, "If specified, it revert decorated line(ANSI colors are assumbed to be removed).")
 	flag.Parse()
 
+	checkDelimiters(delimiter, iconDelimiter)
 	tagColor = checkColor(tagColorString)
 	colorizer = parseColorizeQuery(colorizeQuery)
 	iconIndices = parseIndices(iconIndicesString)
