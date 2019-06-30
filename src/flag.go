@@ -1,29 +1,30 @@
 package taggo
 
 import (
-	"flag"
 	"log"
 	"strconv"
 	"strings"
+
+	"github.com/integrii/flaggy"
 )
 
 var (
 	// --Flag--
 	// Tag
-	tag            string
-	tagColorString string
-	tagDelimiter   string
+	tag            = "\t"
+	tagColorString = ""
+	tagDelimiter   = "\t"
 	// Colors
-	colorizeQuery string
+	colorizeQuery = ""
 	// Icons
-	iconIndicesString string
-	iconDelimiter     string
+	iconIndicesString = ""
+	iconDelimiter     = ":"
 	// Common(Colors, Icons)
 	// this is used commonly between Colors and Icons
-	delimiter string
+	delimiter = "\t"
 	// revertFlag contains boolean whether `taggo` is launched
 	// to stream input lines, or to revert one line.
-	revertFlag bool
+	revertFlag = false
 
 	// --Global Vairiable--
 	tagColor    Color
@@ -95,19 +96,30 @@ func checkDelimiters(delimiter string, iconDelimiter string) {
 	}
 }
 
+func parseDelimiter(delimiter string) string {
+	// Special handling of \t
+	delimiter = strings.Replace(delimiter, "\\t", "\t", -1)
+	return delimiter
+}
+
 // FlagParse parse command line arguments
 func FlagParse() {
-	flag.StringVar(&tag, "tag", "", "The tag value. It is inserted in head of every line")
-	flag.StringVar(&tagColorString, "tagColor", "", "Color that is applied to tag.")
-	flag.StringVar(&tagDelimiter, "tagDelimiter", "\t", "Delimiter used to delimite tag")
+	// Add a flag
+	flaggy.String(&tag, "t", "tag", "The tag value. It is inserted in head of every line")
+	flaggy.String(&tagColorString, "c", "tag-color", "Color that is applied to tag.")
+	flaggy.String(&tagDelimiter, "s", "tag-delimiter", "Delimiter used to delimite tag")
 
-	flag.StringVar(&colorizeQuery, "colorizeQuery", "", "It requires the comma-seperated query to colorize columns ('0:red,1:blue,2:green')")
-	flag.StringVar(&iconIndicesString, "iconIndices", "", "Index list which will be applied icon automatically (0,2,3)")
-	flag.StringVar(&iconDelimiter, "iconDelimiter", ":", "Delimiter that follows icon(it can not be a substring of delimiter if you want to revert correctly)")
-	flag.StringVar(&delimiter, "delimiter", "\t", "Delimiter that is parse a whole line")
+	flaggy.String(&colorizeQuery, "q", "colorize-query", "It requires the comma-seperated query to colorize columns ('0:red,1:blue,2:green')")
+	flaggy.String(&iconIndicesString, "i", "icon-indices", "Index list which will be applied icon automatically (0,2,3)")
+	flaggy.String(&iconDelimiter, "p", "icon-delimiter", "Delimiter that follows icon(it can not be a substring of delimiter if you want to revert correctly)")
+	flaggy.String(&delimiter, "d", "delimiter", "Delimiter that is parse a whole line")
 
-	flag.BoolVar(&revertFlag, "revert", false, "If specified, it revert decorated line(ANSI colors are assumbed to be removed).")
-	flag.Parse()
+	flaggy.Bool(&revertFlag, "r", "revert", "If specified, it revert decorated line(ANSI colors are assumbed to be removed).")
+	flaggy.Parse()
+
+	tagDelimiter = parseDelimiter(tagDelimiter)
+	iconDelimiter = parseDelimiter(iconDelimiter)
+	delimiter = parseDelimiter(delimiter)
 
 	checkDelimiters(delimiter, iconDelimiter)
 	tagColor = checkColor(tagColorString)
