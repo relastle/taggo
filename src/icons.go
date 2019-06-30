@@ -83,7 +83,7 @@ var extensionIconMap = map[string]Icon{
 	"tex":          {code: "\ue600", color: "magenda"},
 	"ts":           {code: "\ue628", color: "yellow"},
 	"twig":         {code: "\ue61c", color: ""},
-	"txt":          {code: "\uf15c", color: "yellow"},
+	"txt":          {code: "\uf15c", color: ""},
 	"video":        {code: "\uf03d", color: ""},
 	"vim":          {code: "\ue62b", color: "blue"},
 	"windows":      {code: "\uf17a", color: "blue"},
