@@ -17,8 +17,8 @@ function test_line () {
     tagDelimiter=${4}
 
     # Construct Command
-    taggo_cmd="taggo -delimiter ${delimiter} -iconDelimiter ${iconDelimiter} -iconIndices '2,3,4' -tag '|TEST|' -tagColor yellow -tagDelimiter ${tagDelimiter}"
-    taggo_revert_cmd="${taggo_cmd} -revert"
+    taggo_cmd="taggo -d ${delimiter} -p ${iconDelimiter} -i '2,3,4' -t '|TEST|' -c yellow -s ${tagDelimiter}"
+    taggo_revert_cmd="${taggo_cmd} -r"
     fzf_cmd="fzf -0 -1 --ansi"
 
     # check argument
