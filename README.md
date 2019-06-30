@@ -9,15 +9,23 @@ taggo provides powerful decoration I/O stream. It is mainly designed for giving
 powerful features to [fzf](https://github.com/junegunn/fzf) (with `--ansi` option).
 It also provides reversion of decorated lines into original lines.
 
-<img width="869" alt="Screen Shot 2019-06-30 at 20 41 17" src="https://user-images.githubusercontent.com/6816040/60396035-76ea7080-9b77-11e9-82de-d38a26de2042.png">
-
-
-
 ## Installation
 
 ```sh
 go get -u github.com/relastle/taggo
 ```
+## Usage
+
+taggo can simply decorate table-like inputs like this.
+
+<img width="872" alt="Screen Shot 2019-06-30 at 20 43 22" src="https://user-images.githubusercontent.com/6816040/60396070-bd3fcf80-9b77-11e9-9332-32f48d336999.png">
+
+Furthermore, taggo can revert decorated lines into original lines with a `-r (--revert)` option (other options must be the same as used in decorating phase).
+
+<img width="765" alt="Screen Shot 2019-06-30 at 20 49 44" src="https://user-images.githubusercontent.com/6816040/60396149-a64dad00-9b78-11e9-91ee-09a9a9111421.png">
+
+This reversion feature is very useful when taggo is used as an intermidiate stream of fzf-related tools, because you usually
+need non-decorated output lines after they are selected by fzf interface.
 
 ## [License](LICENSE)
 
