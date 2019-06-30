@@ -9,7 +9,8 @@ taggo provides powerful decoration I/O stream. It is mainly designed for giving
 powerful features to [fzf](https://github.com/junegunn/fzf) (with `--ansi` option).
 It also provides reversion of decorated lines into original lines.
 
-<img width="872" alt="Screen Shot 2019-06-30 at 20 40 02" src="https://user-images.githubusercontent.com/6816040/60396025-4c98b300-9b77-11e9-806e-ddaa5d562e60.png">
+<img width="869" alt="Screen Shot 2019-06-30 at 20 41 17" src="https://user-images.githubusercontent.com/6816040/60396035-76ea7080-9b77-11e9-82de-d38a26de2042.png">
+
 
 
 ## Installation
