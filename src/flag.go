@@ -11,7 +11,7 @@ import (
 var (
 	// --Flag--
 	// Tag
-	tag            = "\t"
+	tag            = ""
 	tagColorString = ""
 	tagDelimiter   = "\t"
 	// Colors
@@ -19,6 +19,8 @@ var (
 	// Icons
 	iconIndicesString = ""
 	iconDelimiter     = ":"
+	// base-named
+	basenamedIndex = -1
 	// Common(Colors, Icons)
 	// this is used commonly between Colors and Icons
 	delimiter = "\t"
@@ -105,14 +107,15 @@ func parseDelimiter(delimiter string) string {
 // FlagParse parse command line arguments
 func FlagParse() {
 	// Add a flag
-	flaggy.String(&tag, "t", "tag", "The tag value. It is inserted in head of every line")
+	flaggy.String(&tag, "t", "tag", "The tag value. It is inserted in head of every line.")
 	flaggy.String(&tagColorString, "c", "tag-color", "Color that is applied to tag.")
-	flaggy.String(&tagDelimiter, "s", "tag-delimiter", "Delimiter used to delimite tag")
+	flaggy.String(&tagDelimiter, "s", "tag-delimiter", "Delimiter used to delimite tag.")
 
-	flaggy.String(&colorizeQuery, "q", "colorize-query", "It requires the comma-seperated query to colorize columns ('0:red,1:blue,2:green')")
-	flaggy.String(&iconIndicesString, "i", "icon-indices", "Index list which will be applied icon automatically (0,2,3)")
-	flaggy.String(&iconDelimiter, "p", "icon-delimiter", "Delimiter that follows icon(it can not be a substring of delimiter if you want to revert correctly)")
-	flaggy.String(&delimiter, "d", "delimiter", "Delimiter that is parse a whole line")
+	flaggy.String(&colorizeQuery, "q", "colorize-query", "It requires the comma-seperated query to colorize columns ('0:red,1:blue,2:green').")
+	flaggy.String(&iconIndicesString, "i", "icon-indices", "Index list which will be applied icon automatically (0,2,3).")
+	flaggy.String(&iconDelimiter, "p", "icon-delimiter", "Delimiter that follows icon(it can not be a substring of delimiter if you want to revert correctly).")
+	flaggy.Int(&basenamedIndex, "b", "basenamed-index", "Index of filepath whose basename is inserted after tag.")
+	flaggy.String(&delimiter, "d", "delimiter", "Delimiter that is parse a whole line.")
 
 	flaggy.Bool(&revertFlag, "r", "revert", "If specified, it revert decorated line(ANSI colors are assumbed to be removed).")
 	flaggy.Parse()

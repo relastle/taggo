@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"path"
 	"strings"
 )
 
@@ -35,6 +36,23 @@ func addTagtep(line string) string {
 }
 
 func removeTagStep(line string) string {
+	elms := strings.Split(line, delimiter)
+	return strings.Join(elms[1:], tagDelimiter)
+}
+
+func addBasenameStep(line string) string {
+	elms := strings.Split(line, delimiter)
+	pathUsed := elms[basenamedIndex]
+	basename := path.Base(pathUsed)
+	return fmt.Sprintf(
+		"%v%v%v",
+		addIcon(basename),
+		delimiter,
+		line,
+	)
+}
+
+func removeBasenameStep(line string) string {
 	elms := strings.Split(line, tagDelimiter)
 	return strings.Join(elms[1:], tagDelimiter)
 }
@@ -95,6 +113,10 @@ func decorateStream() {
 	if len(iconIndices) > 0 {
 		mss.addStep(addIconsStep)
 	}
+	// append `ADD BASE NAME STEP`
+	if basenamedIndex >= 0 {
+		mss.addStep(addBasenameStep)
+	}
 	// append `ADD TAG STEP`
 	if tag != "" {
 		mss.addStep(addTagtep)
@@ -119,6 +141,11 @@ func revertStream() {
 	// append `REMOVE TAG STEP`
 	if tag != "" {
 		mss.addStep(removeTagStep)
+	}
+
+	// append `REMOVE BASENAME STEP`
+	if basenamedIndex >= 0 {
+		mss.addStep(removeBasenameStep)
 	}
 
 	// append `REMOVE ICON STEP`
