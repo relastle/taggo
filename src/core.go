@@ -36,24 +36,30 @@ func addTagtep(line string) string {
 }
 
 func removeTagStep(line string) string {
-	elms := strings.Split(line, delimiter)
+	elms := strings.Split(line, tagDelimiter)
 	return strings.Join(elms[1:], tagDelimiter)
 }
 
 func addBasenameStep(line string) string {
 	elms := strings.Split(line, delimiter)
+	if !(0 <= basenamedIndex && basenamedIndex < len(elms)) {
+		return line
+	}
 	pathUsed := elms[basenamedIndex]
 	basename := path.Base(pathUsed)
 	return fmt.Sprintf(
 		"%v%v%v",
 		addIcon(basename),
-		delimiter,
+		basenamedDelimiter,
 		line,
 	)
 }
 
 func removeBasenameStep(line string) string {
-	elms := strings.Split(line, delimiter)
+	elms := strings.Split(line, basenamedDelimiter)
+	if len(elms) == 1 {
+		return line
+	}
 	return strings.Join(elms[1:], delimiter)
 }
 

@@ -20,7 +20,8 @@ var (
 	iconIndicesString = ""
 	iconDelimiter     = ":"
 	// base-named
-	basenamedIndex = -1
+	basenamedIndex     = -1
+	basenamedDelimiter = "|||"
 	// Common(Colors, Icons)
 	// this is used commonly between Colors and Icons
 	delimiter = "\t"
@@ -115,6 +116,7 @@ func FlagParse() {
 	flaggy.String(&iconIndicesString, "i", "icon-indices", "Index list which will be applied icon automatically (0,2,3).")
 	flaggy.String(&iconDelimiter, "p", "icon-delimiter", "Delimiter that follows icon(it can not be a substring of delimiter if you want to revert correctly).")
 	flaggy.Int(&basenamedIndex, "b", "basenamed-index", "Index of filepath whose basename is inserted after tag.")
+	flaggy.String(&basenamedDelimiter, "g", "basenamed-delimiter", "Delimiter used as suffix of basename.")
 	flaggy.String(&delimiter, "d", "delimiter", "Delimiter that is parse a whole line.")
 
 	flaggy.Bool(&revertFlag, "r", "revert", "If specified, it revert decorated line(ANSI colors are assumbed to be removed).")
