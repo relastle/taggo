@@ -53,8 +53,8 @@ func addBasenameStep(line string) string {
 }
 
 func removeBasenameStep(line string) string {
-	elms := strings.Split(line, tagDelimiter)
-	return strings.Join(elms[1:], tagDelimiter)
+	elms := strings.Split(line, delimiter)
+	return strings.Join(elms[1:], delimiter)
 }
 
 // colorColumnStep colors `index`th column
