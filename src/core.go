@@ -6,6 +6,8 @@ import (
 	"os"
 	"path"
 	"strings"
+
+	utils "github.com/relastle/taggo/src/utils"
 )
 
 // multiStepStream is an struct
@@ -43,13 +45,23 @@ func removeTagStep(line string) string {
 func addBasenameStep(line string) string {
 	elms := strings.Split(line, delimiter)
 	if !(0 <= basenamedIndex && basenamedIndex < len(elms)) {
-		return line
+		return fmt.Sprintf(
+			"%v%v%v",
+			"",
+			basenamedDelimiter,
+			line,
+		)
 	}
 	pathUsed := elms[basenamedIndex]
 	basename := path.Base(pathUsed)
+	numSpaces := basenamedMaxLen - len(basename)
+	for numSpaces <= 0 {
+		numSpaces += basenamedLenInterval
+	}
 	return fmt.Sprintf(
-		"%v%v%v",
+		"%v%v%v%v",
 		addIcon(basename),
+		utils.MakeString(" ", numSpaces),
 		basenamedDelimiter,
 		line,
 	)
